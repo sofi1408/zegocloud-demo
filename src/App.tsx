@@ -1,43 +1,54 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 const App: React.FC = () => {
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const remoteVideoRef = useRef<HTMLVideoElement>(null);
-  const [role, setRole] = useState<"host" | "viewer" | "">("");
   const [roomID, setRoomID] = useState<string>("");
+  const [isJoined, setIsJoined] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (!role || !roomID) return;
-  }, [role, roomID]);
+
 
   return (
-    <div style={{ textAlign: "center" }}>
-      <h1>Live Streaming</h1>
-      {!role ? (
+    <div style={{ textAlign: "center", padding: "20px" }}>
+      <h1>ZEGOCLOUD Video Call</h1>
+      {!isJoined ? (
         <div>
           <input
             type="text"
             placeholder="Enter Room ID"
             value={roomID}
             onChange={(e) => setRoomID(e.target.value)}
-            style={{ marginRight: "10px" }}
+            style={{ padding: "8px", marginRight: "10px" }}
           />
-          <button onClick={() => setRole("host")}>Start Hosting</button>
-          <button onClick={() => setRole("viewer")}>Join as Viewer</button>
+          <button onClick={() => {}} style={{ padding: "8px 16px" }}>
+            Join Room
+          </button>
         </div>
       ) : (
         <div>
-          {role === "host" ? (
+          <h2>Room ID: {roomID}</h2>
+          <button onClick={() => {}} style={{ padding: "8px 16px", marginBottom: "20px" }}>
+            Leave Room
+          </button>
+          <div style={{ display: "flex", justifyContent: "center", gap: "20px" }}>
             <div>
-              <h2>Hosting in Room: {roomID}</h2>
-              <video ref={localVideoRef} autoPlay muted style={{ width: "600px", backgroundColor: "black" }} />
+              <h3>Local Video</h3>
+              <video
+                ref={localVideoRef}
+                autoPlay
+                muted
+                style={{ width: "300px", height: "200px", backgroundColor: "black" }}
+              ></video>
             </div>
-          ) : (
             <div>
-              <h2>Watching Room: {roomID}</h2>
-              <video ref={remoteVideoRef} autoPlay style={{ width: "600px", backgroundColor: "black" }} />
+              <h3>Remote Video</h3>
+              <video
+                ref={remoteVideoRef}
+                autoPlay
+                style={{ width: "300px", height: "200px", backgroundColor: "black" }}
+              ></video>
             </div>
-          )}
+          </div>
         </div>
       )}
     </div>
